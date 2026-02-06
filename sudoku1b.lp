@@ -22,13 +22,13 @@ num(1..4).
 %subgrid constraints
 subgrid(X,Y,G) :-
     row(X), col(Y),
-    G = 1, X<=2, Y<=2;
+    G = 1, X<=2, Y<=2.
 subgrid(X,Y,G) :-
     row(X), col(Y),
-    G = 2, X<=2, Y>2;
+    G = 2, X<=2, Y>2.
 subgrid(X,Y,G) :-
     row(X), col(Y),
-    G = 3, X>2, Y<=2;
+    G = 3, X>2, Y<=2.
 subgrid(X,Y,G) :-
     row(X), col(Y),
     G = 4, X>2, Y>2.
