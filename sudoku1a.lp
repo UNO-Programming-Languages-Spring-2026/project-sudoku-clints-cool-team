@@ -19,14 +19,6 @@ num(1..4).
 % Column constraints
 :- col(C), num(N), 2 { cell(R,C,N) : row(R) }.
 
-% 2x2 block constraints
-block(RB,CB) :- RB=1..2, CB=1..2.
-
-:- block(RB,CB), num(N),
-   2 { cell(R,C,N) :
-        R = 2*(RB-1)+1..2*RB,
-        C = 2*(CB-1)+1..2*CB }.
-
 % Given clues
 cell(R,C,N) :- initial(R,C,N).
 
