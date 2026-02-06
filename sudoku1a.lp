@@ -6,13 +6,9 @@
 
 % Your implementation please...
 % Domains
-row(1..l).
-col(1..l).
-num(1..l).
-
-%determine block size
-blockSize(B) :- B*B=l.
-:- not blockSize(_).
+row(1..4).
+col(1..4).
+num(1..4).
 
 % One number per cell
 1 { cell(R,C,N) : num(N) } 1 :- row(R), col(C).
@@ -23,13 +19,13 @@ blockSize(B) :- B*B=l.
 % Column constraints
 :- col(C), num(N), 2 { cell(R,C,N) : row(R) }.
 
-% 3x3 block constraints
-block(RB,CB) :- RB=1..3, CB=1..3.
+% 2x2 block constraints
+block(RB,CB) :- RB=1..2, CB=1..2.
 
 :- block(RB,CB), num(N),
    2 { cell(R,C,N) :
-        R = B*(RB-1)+1..B*RB,
-        C = B*(CB-1)+1..B*CB }.
+        R = 2*(RB-1)+1..2*RB,
+        C = 2*(CB-1)+1..2*CB }.
 
 % Given clues
 cell(R,C,N) :- initial(R,C,N).
