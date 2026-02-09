@@ -9,6 +9,7 @@
 row(1..4).
 col(1..4).
 num(1..4).
+grid(1..4).
 
 % One number per cell
 1 { sudoku(R,C,N) : num(N) } 1 :- row(R), col(C).
@@ -36,6 +37,8 @@ grid_of(R,C,G) :-
 subgrid(R,C,G,N) :-
     sudoku(R,C,N),
     grid_of(R,C,G).
+:- num(N), grid(G),
+    2 { subgrid(R,C,G,N) }.
 
 % Given clues
 sudoku(R,C,N) :- initial(R,C,N).
