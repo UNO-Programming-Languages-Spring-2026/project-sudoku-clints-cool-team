@@ -35,13 +35,17 @@ grid_of(R,C,G) :-
     G = 4, R>2, C>2.
 
 % Subgrid fills with sudoku values
-subgrid(R,C,G) :-
+subgridN(R,C,G,N) :-
     sudoku(R,C,N),
     grid_of(R,C,G).
 
 % Subgrid single value constraint
-:- grid(G),
-    2 { subgrid(R,C,G) }.
+:- grid(G), num(N),
+    2 { subgridN(R,C,G) }.
+
+% Subgrid final
+subgrid(R,C,G) :-
+    subgridN(R,C,G,N).
 
 % Given clues
 sudoku(R,C,N) :- initial(R,C,N).
