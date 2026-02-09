@@ -1,7 +1,7 @@
 % Domains
-row(1..l).
-col(1..l).
-num(1..l).
+row(1..9).
+col(1..9).
+num(1..9).
 
 % One number per sudoku
 1 { sudoku(R,C,N) : num(N) } 1 :- row(R), col(C).
