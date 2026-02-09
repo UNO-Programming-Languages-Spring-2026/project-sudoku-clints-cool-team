@@ -41,7 +41,7 @@ subgridN(R,C,G,N) :-
 
 % Subgrid single value constraint
 :- grid(G), num(N),
-    2 { subgridN(R,C,G) }.
+    2 { subgridN(R,C,G,N) }.
 
 % Subgrid final
 subgrid(R,C,G) :-
