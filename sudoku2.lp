@@ -1,17 +1,13 @@
-% Sudoku Solver
-%
-% Hints:
-% For subgrid of size n, subgrids can be identified by labels 1..n*n
-% A cell (x,y) can be mapped to the subgrid labeled 1+(((x-1)/n)*n+(y-1)/n)
-
-% Your implementation please...
 % Domains
-row(1..4).
-col(1..4).
-num(1..4).
-grid(1..4).
+row(1..l).
+col(1..l).
+num(1..l).
 
-% One number per cell
+%determine block size
+blockSize(B) :- B*B=l.
+:- not blockSize(_).
+
+% One number per sudoku
 1 { sudoku(R,C,N) : num(N) } 1 :- row(R), col(C).
 
 % Row constraints
@@ -20,32 +16,13 @@ grid(1..4).
 % Column constraints
 :- col(C), num(N), 2 { sudoku(R,C,N) : row(R) }.
 
-% Subgrid qualifiers
-grid_of(R,C,G) :-
-    row(R), col(C),
-    G = 1, R<=2, C<=2.
-grid_of(R,C,G) :-
-    row(R), col(C),
-    G = 2, R<=2, C>2.
-grid_of(R,C,G) :-
-    row(R), col(C),
-    G = 3, R>2, C<=2.
-grid_of(R,C,G) :-
-    row(R), col(C),
-    G = 4, R>2, C>2.
+% 3x3 block constraints
+block(RB,CB) :- RB=1..3, CB=1..3.
 
-% Subgrid fills with sudoku values
-subgridN(R,C,G,N) :-
-    sudoku(R,C,N),
-    grid_of(R,C,G).
-
-% Subgrid single value constraint
-:- grid(G), num(N),
-    2 { subgridN(R,C,G,N) }.
-
-% Subgrid final
-subgrid(R,C,G) :-
-    subgridN(R,C,G,N).
+:- block(RB,CB), num(N),
+   2 { sudoku(R,C,N) :
+        R = B*(RB-1)+1..B*RB,
+        C = B*(CB-1)+1..B*CB }.
 
 % Given clues
 sudoku(R,C,N) :- initial(R,C,N).
