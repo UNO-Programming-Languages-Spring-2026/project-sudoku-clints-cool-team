@@ -1,37 +1,27 @@
-% Sudoku Solver
-%
-% Hints:
-% For subgrid of size n, subgrids can be identified by labels 1..n*n
-% A cell (x,y) can be mapped to the subgrid labeled 1+(((x-1)/n)*n+(y-1)/n)
-
-% Your implementation please...
-
-values(1..9).
+% Domains
 row(1..9).
 col(1..9).
+num(1..9).
 
-%deal with initial
-sudoku(R,C,V) :- initial(R,C,V).
+% One number per sudoku
+1 { sudoku(R,C,N) : num(N) } 1 :- row(R), col(C).
 
-%every cell can only have one number assigned to it
-%sudoku(1,1,1) sudoku(1,1,2)
-1 { sudoku(R, C, V) : values(V) } 1 :- row(R), col(C).
+% Row constraints
+:- row(R), num(N), 2 { sudoku(R,C,N) : col(C) }.
 
-%every row needs 1 of each number
-%it is not the case that atoms with the same R and V values do not also have the same C values
-:- sudoku(R, C1, V), sudoku(R, C2, V), C1 != C2.
+% Column constraints
+:- col(C), num(N), 2 { sudoku(R,C,N) : row(R) }.
 
-%Every col needs 1 of a number
-%it is not the case that for every column and number, that there should be more than one row with that number
-:- sudoku(R1, C, V), sudoku(R2, C, V), R1 != R2.
+% 3x3 block constraints
+block(RB,CB) :- RB=1..3, CB=1..3.
 
-%origin is top left, in subgrid(R, C) where R = row, C = col
+:- block(RB,CB), num(N),
+   2 { sudoku(R,C,N) :
+        R = 3*(RB-1)+1..3*RB,
+        C = 3*(CB-1)+1..3*CB }.
 
-subgrid(R, C, G) :- row(R), col(C), BR = (R-1)/3, BC = (C-1)/3, G = BR*3 + BC + 1.
+% Given clues
+sudoku(R,C,N) :- initial(R,C,N).
 
-%each subgrid may only have one of each number
-%sudoku(1,1,1) sudoku(1,2,1)
-:- sudoku(R, C, V), sudoku(R1, C1, V), subgrid(R, C, G), subgrid(R1, C1, G1), G = G1, R != R1, C != C1.
-
-
+% Show answers
 #show sudoku/3.
